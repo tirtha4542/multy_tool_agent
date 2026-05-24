@@ -49,86 +49,15 @@ The diagram below maps how the system handles user interactions, manages state l
 ```
 
 ```
-                              ┌───────────────────────────┐
-                              │      USER INTERFACE       │
-                              │   (Streamlit Front-End)   │
-                              └─────────────┬─────────────┘
-                                            │
-                                   [user_input string]
-                                            │
-                                            ▼
+
+
+<img width="1408" height="768" alt="Gemini_Generated_Image_jcef9bjcef9bjcef" src="https://github.com/user-attachments/assets/69f19dd4-54b0-4d57-bf0d-ee03515ad2b5" />
+
+                                           
 
 ```
 
-┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│ CORE STATE STORAGE (st.session_state)                                                        │
-│                                                                                              │
-│  ┌─────────────────────────────────┐               ┌──────────────────────────────────────┐  │
-│  │ chat_history (Primitive Dicts)  │               │ pending_action (Metadata Struct)     │  │
-│  │ - "role": user/assistant/tool   │               │ - "name": tool string identifier     │  │
-│  │ - "content": message payload    │               │ - "args": unpacked parameters dict   │  │
-│  │ - "tool_calls" / "tool_call_id" │               │ - "id": string trace signature       │  │
-│  └────────────────┬────────────────┘               └──────────────────┬───────────────────┘  │
-└───────────────────┼───────────────────────────────────────────────────┼──────────────────────┘
-│                                                   │
-(Read history sequence)                               (Read check state)
-│                                                   │
-▼                                                   ▼
-┌───────────────────┴────────────────┐                 ┌────────────────┴──────────────────────┐
-│  FUNCTION: build_api_context()     │                 │   CONDITIONAL JUNCTION EVALUATION     │
-│                                    │                 │                                       │
-│  1. Injects hidden fixed string:   │                 │   if st.session_state.pending_action: │
-│     SYSTEM_PROMPT                  │                 └────────────────┬──────────────────────┘
-│  2. Converts history primitives    │                                  │
-│     into pure structural items:    │                   ┌──────────────┴──────────────┐
-│     [HumanMessage, AIMessage,      │                   │                             │
-│      ToolMessage]                  │                  YES                            NO
-│                                    │                   │                             │
-└───────────────────┴────────────────┘                   ▼                             ▼
-│                         ┌──────────────────────┐       ┌─────────────────┐
-▼                         │ FREEZE SYSTEM ENTRY  │       │ ENABLE STANDARD │
-┌───────────────────┴────────────────┐        │ RENDER INTERVENTION  │       │ INPUT PLATFORM  │
-│        ChatMistralAI ENGINE        │        │ WARNING BANNER CARD  │       │ st.chat_input() │
-│                                    │        └──────────┬───────────┘       └─────────┬───────┘
-│  Evaluates strict array sequencing │                   │                             │
-│  order validation protocols        │             [User Click]                 [User Chat Text]
-└───────────────────┴────────────────┘                   │                             │
-│                                    ▼                             ▼
-▼                          ┌─────────┴─────────┐         ┌─────────┴───────┐
-┌───────────────────┴────────────────┐         │  BUTTON SELECTION │         │ ROUTINE TRIGGER │
-│ CONDITIONAL JUNCTION EVALUATION   │         └────┬───────────┬───┘         └─────────┬───────┘
-│                                    │              │           │                       │
-│ if response.tool_calls:            │           APPROVE      DENY                      │
-└───────────┬────────────────┬───────┘              │           │                       │
-│                │                      ▼           ▼                       │
-YES               NO               ┌─────┴─────┐┌────┴────┐                  │
-│                │                │ RUN LOCAL ││ BYPASS  │                  │
-▼                ▼                │ TOOL EXEc ││ LOCAL   │                  │
-┌────────┴────────┐┌──────┴──────┐         └─────┬─────┘│ TOOL    │                  │
-│ POPULATE       ││ APPEND TEXT │             │      │ TASK    │                  │
-│ pending_action  ││ RESPONSE TO │               │      └────┬────┘                  │
-│ DATA METADATA   ││ CHAT HISTORY│         [Invoke Tool]     │                       │
-└────────┬────────┘└──────┬──────┘               │           │                       │
-│                │                      ▼           ▼                       │
-▼                ▼                ┌─────┴───────────┴───────────────────────┐
-st.rerun()       st.rerun()            │ APPEND CORRESPONDING ToolMessage       │
-(Refresh Page)   (Refresh Page)          │ - populates output 'content' string     │
-│ - links unique 'tool_call_id' signature │
-└─────────────────┬───────────────────────┘
-│
-▼
-┌─────────────────┴───────────────────────┐
-│ RESET STATE LAYER PARAMETERS            │
-│ - st.session_state.pending_action = None│
-└─────────────────┬───────────────────────┘
-│
-▼
-┌─────────────────┴───────────────────────┐
-│ EXECUTE SUMMARY RE-EVALUATION PASS      │
-│ - llm.invoke(build_api_context())       │
-│ - st.session_state.chat_history.append()│
-│ - st.rerun()                            │
-└─────────────────────────────────────────┘
+
 
 ```
 
