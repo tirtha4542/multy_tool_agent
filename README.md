@@ -43,7 +43,7 @@ The diagram below maps how the system handles user interactions, manages state l
 ```
 
 ```text
-README.md generated successfully.
+
 
 
 ```
@@ -190,18 +190,8 @@ streamlit run app.py
 * **Failure Isolation Context:** If a user chooses to deny an option, the system gracefully feeds an explicit `ToolMessage(content="Error: Operation denied by user intervention")` trace signature back to the model. This allows the AI agent to dynamically catch the refusal, adjust its conversational plan, and apologize without entering an unhandled script execution fault loop.
 """
 
-# Save to sandbox file
-
-with open("README.md", "w", encoding="utf-8") as f:
-f.write(readme_content.strip())
-
-print("README.md generated successfully.")
 
 ```
-Your GitHub `README.md` file is ready
-[file-tag: code-generated-file-0-1779616462892300981]
-
-Here is a summary of what has been built and included in your documentation file:
 
 ### ✨ Document Features & Highlights
 * **Deep Architectural Breakdown:** Explicitly details the **"Mistral API Order Validation Mismatch (`HTTP 400`)"** problem and explains the exact engineering fix implemented in the code (using a primitive-safe session layer to isolate state changes between web engine refreshes).
