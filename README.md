@@ -48,16 +48,10 @@ The diagram below maps how the system handles user interactions, manages state l
 
 ```
 
-```
-
 
 <img width="1408" height="768" alt="Gemini_Generated_Image_jcef9bjcef9bjcef" src="https://github.com/user-attachments/assets/69f19dd4-54b0-4d57-bf0d-ee03515ad2b5" />
 
-                                           
-
-```
-
-
+                                          
 
 ```
 
