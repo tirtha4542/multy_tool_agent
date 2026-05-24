@@ -1,7 +1,7 @@
 ```python
 import os
 
-##🏙️ Tirtha | City Assistant & System Automation Agent##
+🏙️ Tirtha | City Assistant & System Automation Agent
 
 A polished, secure, and production-ready **Streamlit** AI assistant powered by **LangChain** and **Mistral AI (`mistral-large-latest`)**. This agent utilizes advanced tool binding, custom session state orchestration, and an interactive **Human-in-the-Loop (HITL)** approval workflow to securely handle sensitive local operating system commands alongside real-time web lookups.
 
