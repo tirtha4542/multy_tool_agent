@@ -1,5 +1,3 @@
-```python
-import os
 
 🏙️ Tirtha | City Assistant & System Automation Agent
 
